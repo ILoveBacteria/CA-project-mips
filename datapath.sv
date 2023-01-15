@@ -1,7 +1,7 @@
 module datapath(input  logic        clk, reset,
                 input  logic        memtoreg, pcsrc,
                 input  logic        alusrc, regdst,
-                input  logic        regwrite, jump,
+                input  logic        regwrite, jump, jumpr,
                 input  logic [2:0]  alucontrol,
                 output logic        zero,
                 output logic [31:0] pc,
@@ -10,7 +10,7 @@ module datapath(input  logic        clk, reset,
                 input  logic [31:0] readdata);
 
   logic [4:0]  writereg;
-  logic [31:0] pcnext, pcnextbr, pcplus4, pcbranch;
+  logic [31:0] pcnext, pcnextbr, pcnextjump, pcplus4, pcbranch;
   logic [31:0] signimm, signimmsh;
   logic [31:0] srca, srcb;
   logic [31:0] result;
@@ -21,7 +21,8 @@ module datapath(input  logic        clk, reset,
   sl2         immsh(signimm, signimmsh);
   adder       pcadd2(pcplus4, signimmsh, pcbranch);
   mux2 #(32)  pcbrmux(pcplus4, pcbranch, pcsrc, pcnextbr);
-  mux2 #(32)  pcmux(pcnextbr, {pcplus4[31:28], 
+  mux2 #(32)  pcjumpr(pcnextbr, srca, jumpr, pcnextjump);
+  mux2 #(32)  pcmux(pcnextjump, {pcplus4[31:28],
                     instr[25:0], 2'b00}, jump, pcnext);
 
   // register file logic
