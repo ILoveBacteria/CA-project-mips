@@ -8,7 +8,9 @@ Please give enough time understanding how it workds.
 Three changes should be made to the code in this repo:
 1. Implementing the `lb` instruction. It is an I-type instruction which is the same as `lw` but it stores the first byte seen on the given address. The Opcode for this instruction is `100000`.
 2. Implementing the `jr` instruction. This instruction loads the `$ra`  into `$pc`. It's an `r-type` instruction. The Opcode and funct for this instruction in order are `000000` and `001000`.
-3. Implementing the `jalr` instruction. This instruction is the same as 2 in addition of storing the address of the next instruction in `$ra`. It's an `r-type` instruction. The Opcode and funct for this instruction in order are `000000` and `001001`.
+3. Implementing the `jal` instruction.
+
+
 After all the resulting architecture must be impelemented using either `verilog` or `system-verilog`.
 
 ## What are the advantages and disadvantages of the `system-verilog`?
